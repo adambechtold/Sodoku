@@ -29,7 +29,7 @@ Board::Board(string fileName)
                 number = 0;
             }
             else {
-                number = input;
+                number = input - '0';
             }
             this->mat[i][j] = number;
         }
