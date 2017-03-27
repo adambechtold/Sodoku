@@ -18,9 +18,11 @@ public:
     //overloaded
     friend ostream& operator<< (ostream& ostr, const Board& b);
 
-    string getItem(int row, int col);
+    int getCell(int row, int col);
 
-    int Length();
+    void setCell(int row, int col, int value);
+
+    void clearCell(int row, int col, int value);
 
 private:
     matrix<int> mat;

@@ -36,6 +36,8 @@ Board::Board(string fileName)
     }
 
     fin.close();
+
+    //TODO update conflicts
 }
 
 ostream &operator<<(ostream &ostr, const Board &b)
@@ -48,4 +50,21 @@ ostream &operator<<(ostream &ostr, const Board &b)
         ostr << endl;
     }
     return ostr;
+
+    //TODO print conflicts
+}
+
+int Board::getCell(int row, int col) {
+    return this->mat[row][col];
+    //TODO update conflicts
+}
+
+void Board::setCell(int row, int col, int value) {
+    this->mat[row][col] = value;
+    //TODO update conflicts
+}
+
+void Board::clearCell(int row, int col, int value) {
+    this->mat[row][col] = 0;
+    //TODO update conflicts
 }
