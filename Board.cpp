@@ -129,6 +129,6 @@ int squareNumber(int i, int j)
     // Note that (int) i/SquareSize and (int) j/SquareSize are the x-y
     // coordinates of the square that i,j is in.
 
-    return SquareSize * ((i/SquareSize) + (j/SquareSize + 1;
+    return SquareSize * ((i/SquareSize) + (j/SquareSize + 1));
 }
 
