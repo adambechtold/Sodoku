@@ -18,11 +18,14 @@ int main() {
 
 
     cout << "\n=======BOARD 1========\n\n";
-    cout << b1;
+//    cout << b1 << "\n\n";
+    b1.print();
     cout << "\n=======BOARD 2========\n\n";
-    cout << b2;
+//    cout << b2 << "\n\n";
+    b2.print();
     cout << "\n=======BOARD 3========\n\n";
-    cout << b3;
+//    cout << b3 << "\n\n";
+    b3.print();
 
     return 0;
 }
