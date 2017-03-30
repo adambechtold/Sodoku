@@ -1,6 +1,14 @@
 //
-// Created by Adam Bechtold on 3/27/17.
+// This is the header file for the Board Class
+// This file contains the declarations of the board class, including:
 //
+// Functions to view the contents of each matrix index
+// A function which update the conflicts of the entire board
+// A function to update conflicts related to a specific index
+// Functions to set and clear specific index values
+// Functions to support printing the matrix as well as all cell conflicts
+// Functions to determine if the board is solved
+
 
 #include "d_matrix.h"
 #include <cstdlib>
@@ -49,6 +57,7 @@ public:
     void print();
     void printConflicts();
 
+    bool isSolved();
     bool isBlank(int i, int j);
     int squareNumber(int i, int j);
 private:

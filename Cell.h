@@ -1,5 +1,13 @@
 //
-// Created by Adam Bechtold on 3/28/17.
+// This is the header file for the Cell Class
+// This file contains the declarations of the cell class, including:
+//
+// Default and overloaded constructors to initialize the cell
+// A getValue function
+// A setValue function
+// Functions to update the different boolean conflict vectors
+// Functions to add and remove values from the list of conflict values
+// Functions to support printing of the cell's value
 //
 
 #include <vector>
@@ -16,20 +24,15 @@ private:
 
     vector<bool> rowConflicts;
     vector<bool> colConflicts;
-    vector<bool> sqaureConflicts;
+    vector<bool> squareConflicts;
 
     vector<int> conflictValues;
 
 public:
     Cell();
-
     Cell(int value);
 
     int getValue() const;
-
-    vector<bool> getRowConflicts() const;
-    vector<bool> getColConflicts() const;
-    vector<bool> getSquareConflict() const;
 
     void setValue(int value);
 
@@ -45,7 +48,6 @@ public:
     void removeConflictValue(int val);
 
     void printCell();
-
 
     friend ostream& operator<< (ostream& ostr, const Cell& c);
 };

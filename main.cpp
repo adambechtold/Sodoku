@@ -3,7 +3,8 @@
 
 using namespace std;
 
-int main() {
+int main()
+{
 
     //Instructions for main.cpp 4a:
     // Read each Sudoku baord form the file one by one
