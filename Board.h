@@ -17,8 +17,8 @@ const int SquareSize = 3;  //  The number of cells in a small square
 
 const int BoardSize = SquareSize * SquareSize;
 
-const int MinValue = 1;
-const int MaxValue = 9;
+const int MinValue = 0;
+const int MaxValue = 8;
 
 //int numSolutions = 0;
 
@@ -35,15 +35,23 @@ public:
     //overloaded << operator
     friend ostream& operator<< (ostream& ostr, const Board& b);
 
-    Cell getCell(int i, int j) const;
+    Cell seeCell(int i, int j) const;
 
-    int getCellValue(int i, int j) const;
+    int seeCellValue(int i, int j) const;
+
+    Cell getCell(int i, int j);
+
+    void updateConflict(int i, int j);
+
+    void updateAllConflicts();
 
     void setCell(int i, int j, int value);
 
     void clearCell(int i, int j, int value);
 
     void print();
+
+    void printConflicts();
 
     bool isBlank(int i, int j);
 

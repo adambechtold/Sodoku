@@ -16,15 +16,12 @@ int main() {
     Board b2 = Board("Soduku2.txt");
     Board b3 = Board("Soduku3.txt");
 
-
     cout << "\n=======BOARD 1========\n\n";
-//    cout << b1 << "\n\n";
     b1.print();
+    b1.updateAllConflicts();
     cout << "\n=======BOARD 2========\n\n";
-//    cout << b2 << "\n\n";
     b2.print();
     cout << "\n=======BOARD 3========\n\n";
-//    cout << b3 << "\n\n";
     b3.print();
 
     return 0;

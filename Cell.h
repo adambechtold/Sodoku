@@ -18,6 +18,8 @@ private:
     vector<bool> colConflicts;
     vector<bool> sqaureConflicts;
 
+    vector<int> conflictValues;
+
 public:
     Cell();
 
@@ -35,10 +37,14 @@ public:
     void setColConflict(vector<bool> conflict);
     void setSquareConflict(vector<bool> conflict);
 
-
     void modRowConflict(int index, bool val);
     void modColConflict(int index, bool val);
     void modSquareConflict(int index, bool val);
+
+    void addConflictValue(int val);
+
+
+
 
     friend ostream& operator<< (ostream& ostr, const Cell& c);
 };

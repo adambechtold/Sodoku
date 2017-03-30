@@ -6,16 +6,20 @@
 #include "Cell.h"
 
 const int Blank = -1;  // Indicates that a cell is blank
+const int SquareSize = 3;  //  The number of cells in a small square
+const int BoardSize = SquareSize * SquareSize;
+
 
 using namespace std;
 
-Cell::Cell() {
-    this->value = Blank;
-}
-
 Cell::Cell(int value) {
     this->value = value;
+    this->rowConflicts = vector<bool>(BoardSize);
+    this->colConflicts = vector<bool>(BoardSize);
+    this->sqaureConflicts = vector<bool>(BoardSize);
 }
+
+Cell::Cell() : Cell(Blank) { }
 
 int Cell::getValue() const {
     return this->value;
@@ -56,14 +60,29 @@ void Cell::setSquareConflict(vector<bool> conflict) {
 
 void Cell::modRowConflict(int index, bool val) {
     this->rowConflicts[index] = val;
+    this->addConflictValue(index+1);
 }
 
 void Cell::modColConflict(int index, bool val) {
     this->colConflicts[index] = val;
+    this->addConflictValue(index+1);
 }
 
 void Cell::modSquareConflict(int index, bool val) {
     this->sqaureConflicts[index] = val;
+    this->addConflictValue(index+1);
+}
+
+
+void Cell::addConflictValue(int val) {
+
+    for (int i = 0; i < this->conflictValues.size(); i++) {
+        if (this->conflictValues[i] == val) {
+            return;
+        }
+    }
+
+    this->conflictValues.push_back(val);
 }
 
 
