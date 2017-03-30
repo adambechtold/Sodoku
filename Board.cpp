@@ -39,7 +39,7 @@ Board::Board(string fileName)
 
     fin.close();
 
-    //TODO update conflicts
+    updateAllConflicts();
 }
 
 ostream &operator<<(ostream &ostr, const Board &b)
@@ -52,28 +52,18 @@ ostream &operator<<(ostream &ostr, const Board &b)
         ostr << endl;
     }
     return ostr;
-
-    //TODO print conflicts
 }
 
 Cell Board::seeCell(int i, int j) const
 // return the cell object at the given coordinates
 {
     return this->mat[i][j];
-    //TODO update conflicts
 }
 
 int Board::seeCellValue(int i, int j) const
 // return the value of the cell at the given coordinates
 {
     return this->seeCell(i, j).getValue();
-}
-
-Cell Board::getCell(int i, int j)
-// return the cell object at the given coordinates
-{
-    return this->mat[i][j];
-    //TODO update conflicts
 }
 
 
@@ -114,8 +104,10 @@ void Board::updateAllConflicts() {
 
 
 void Board::setCell(int i, int j, int value) {
-    this->mat[i][j] = value;
+    this->mat[i][j].setValue(value);
     //TODO update conflicts
+
+
 }
 
 void Board::clearCell(int i, int j, int value) {

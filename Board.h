@@ -39,8 +39,6 @@ public:
 
     int seeCellValue(int i, int j) const;
 
-    Cell getCell(int i, int j);
-
     void updateConflict(int i, int j);
 
     void updateAllConflicts();
