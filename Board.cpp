@@ -23,9 +23,8 @@ Board::Board(string fileName)
     ifstream fin;
     fin.open(fileName);
 
-    if (!fin) {
+    if (!fin)
         cout << "File access failure.\n";
-    }
 
     this->mat = matrix<Cell>(9,9);
 
@@ -38,6 +37,7 @@ Board::Board(string fileName)
         for (int j = 0; j < BoardSize; j++)
         {
             fin >> noskipws >> input;
+
             if (input == '.')
                 number = Blank;
 
@@ -57,10 +57,11 @@ Board::Board(string fileName)
 ostream &operator<<(ostream &ostr, const Board &b)
 // overloads the << operator to print the contents of the board
 {
-    for (int i = 0; i < BoardSize; i++) {
-        for (int j = 0; j < BoardSize; j++) {
+    for (int i = 0; i < BoardSize; i++)
+    {
+        for (int j = 0; j < BoardSize; j++)
             ostr << b.seeCellValue(i, j) << " ";
-        }
+
         ostr << endl;
     }
     return ostr;
@@ -86,16 +87,19 @@ void Board::updateConflict(int i, int j)
     int startCol = (j/SquareSize) * SquareSize;
 
     int spotVal = Blank;
-    for (int a = 0; a < BoardSize; a++) {
 
+    for (int a = 0; a < BoardSize; a++)
+    {
         //Moving through the row
         spotVal = this->seeCellValue(i,a);
+
         if (spotVal != Blank)
             this->mat[i][j].modRowConflict(spotVal - 1, true);
 
 
         //moving through the column
         spotVal = this->seeCellValue(a,j);
+
         if (spotVal != Blank)
             this->mat[i][j].modColConflict(spotVal - 1, true);
 
@@ -103,18 +107,19 @@ void Board::updateConflict(int i, int j)
         int row = a / SquareSize + startRow;
         int col = a % SquareSize + startCol;
         spotVal = this->seeCellValue(row,col);
+
         if (spotVal != Blank)
             this->mat[i][j].modSquareConflict(spotVal - 1, true);
-    }
+    } //end of for loop
 }
 
 void Board::updateAllConflicts()
 // updates conflicts for the entire board
 {
-    for (int i = 0; i < BoardSize; i++) {
-        for (int j = 0; j < BoardSize; j++) {
+    for (int i = 0; i < BoardSize; i++)
+    {
+        for (int j = 0; j < BoardSize; j++)
             this->updateConflict(i,j);
-        }
     }
 }
 
@@ -178,8 +183,10 @@ void Board::print()
         {
             if ((j) % SquareSize == 0)
                 cout << "|";
+
             if (!isBlank(i,j))
                 cout << " " << seeCellValue(i, j) << " ";
+
             else
                 cout << "   ";
         }
@@ -188,6 +195,7 @@ void Board::print()
     }
 
     cout << " -";
+
     for (int j = 1; j <= BoardSize; j++)
         cout << "---";
     cout << "-";
@@ -202,15 +210,16 @@ void Board::printConflicts()
     cout << setw(11) << "Value";
     cout << setw(20) << "Conflict Values\n";
 
-    for (int i = 0; i < BoardSize; i++) {
-        for (int j = 0; j < BoardSize; j++) {
+    for (int i = 0; i < BoardSize; i++)
+    {
+        for (int j = 0; j < BoardSize; j++)
+        {
             cout << "   " << "(" << i << "," << j << ")   ";
             this->mat[i][j].printCell();
             cout << endl;
         }
     }
 }
-
 
 bool Board::isBlank(int i, int j)
 // Returns true if cell i,j is blank, and false otherwise.
@@ -220,7 +229,6 @@ bool Board::isBlank(int i, int j)
 
     return (seeCellValue(i, j) == Blank);
 }
-
 
 int Board::squareNumber(int i, int j)
 // Return the square number of cell i,j (counting from left to right,
