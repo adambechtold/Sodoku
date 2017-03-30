@@ -157,7 +157,17 @@ void Board::print()
 }
 
 void Board::printConflicts() {
-    cout <<
+    cout << setw(7) << "Cell";
+    cout << setw(11) << "Value";
+    cout << setw(20) << "Conflict Values\n";
+
+    for (int i = 0; i < BoardSize; i++) {
+        for (int j = 0; j < BoardSize; j++) {
+            cout << "   " << "(" << i << "," << j << ")   ";
+            this->mat[i][j].printCell();
+            cout << endl;
+        }
+    }
 }
 
 

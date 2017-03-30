@@ -43,7 +43,7 @@ public:
 
     void addConflictValue(int val);
 
-
+    void printCell();
 
 
     friend ostream& operator<< (ostream& ostr, const Cell& c);

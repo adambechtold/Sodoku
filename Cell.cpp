@@ -2,7 +2,8 @@
 // Created by Adam Bechtold on 3/28/17.
 //
 
-
+#include <iostream>
+#include <iomanip>
 #include "Cell.h"
 
 const int Blank = -1;  // Indicates that a cell is blank
@@ -83,6 +84,19 @@ void Cell::addConflictValue(int val) {
     }
 
     this->conflictValues.push_back(val);
+}
+
+void Cell::printCell() {
+    if(this->value == Blank) {
+        cout << "|       |";
+    }
+    else {
+        cout << "|   " << this->value << "   |";
+    }
+    cout << "  ";
+    for(int i = 0; i < this->conflictValues.size(); i++) {
+        cout << this->conflictValues[i] << ", ";
+    }
 }
 
 

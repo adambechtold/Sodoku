@@ -24,5 +24,7 @@ int main() {
     cout << "\n=======BOARD 3========\n\n";
     b3.print();
 
+    b1.printConflicts();
+
     return 0;
 }
