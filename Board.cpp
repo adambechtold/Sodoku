@@ -103,16 +103,46 @@ void Board::updateAllConflicts() {
 }
 
 
+// sets the value of a cell at the given coordinates and updates all affected conflict lists
+// TODO: clearly, there is tons of overlap with the clearCell function
 void Board::setCell(int i, int j, int value) {
     this->mat[i][j].setValue(value);
-    //TODO update conflicts
+
+    this->mat[i][j].modRowConflict(value, true);
+    this->mat[i][j].modColConflict(value, true);
+    this->mat[i][j].modSquareConflict(value, true);
 
 
+    //update conflicts in the row, column, and sqaure
+    int startRow = (i/SquareSize) * SquareSize;
+    int startCol = (j/SquareSize) * SquareSize;
+    for(int a = 0; a < BoardSize; a++) {
+        this->mat[i][a].modRowConflict(value - 1, true);
+        this->mat[a][j].modRowConflict(value - 1, true);
+        int row = a / SquareSize + startRow;
+        int col = a % SquareSize + startCol;
+        this->mat[row][col].modSquareConflict(value - 1, true);
+    }
 }
 
-void Board::clearCell(int i, int j, int value) {
-    this->mat[i][j] = 0;
-    //TODO update conflicts
+void Board::clearCell(int i, int j) {
+    int value = this->mat[i][j].getValue();
+    this->mat[i][j].setValue(Blank);
+
+    this->mat[i][j].modRowConflict(value, false);
+    this->mat[i][j].modColConflict(value, false);
+    this->mat[i][j].modSquareConflict(value, false);
+
+    //update conflicts in the row, column, and square
+    int startRow = (i/SquareSize) * SquareSize;
+    int startCol = (j/SquareSize) * SquareSize;
+    for(int a = 0; a < BoardSize; a++) {
+        this->mat[i][a].modRowConflict(value - 1, false);
+        this->mat[a][j].modRowConflict(value - 1, false);
+        int row = a / SquareSize + startRow;
+        int col = a % SquareSize + startCol;
+        this->mat[row][col].modSquareConflict(value - 1, false);
+    }
 }
 
 void Board::print()

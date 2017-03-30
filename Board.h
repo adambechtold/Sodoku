@@ -32,27 +32,24 @@ class Board {
 public:
     Board(string fileName);
 
-    //overloaded << operator
-    friend ostream& operator<< (ostream& ostr, const Board& b);
-
+    //constant functions to look into the values of cells
     Cell seeCell(int i, int j) const;
-
     int seeCellValue(int i, int j) const;
 
+    //conflict update functions
     void updateConflict(int i, int j);
-
     void updateAllConflicts();
 
+    //set and clear functions
     void setCell(int i, int j, int value);
+    void clearCell(int i, int j);
 
-    void clearCell(int i, int j, int value);
-
+    //printing functions
+    friend ostream& operator<< (ostream& ostr, const Board& b);
     void print();
-
     void printConflicts();
 
     bool isBlank(int i, int j);
-
     int squareNumber(int i, int j);
 private:
     matrix<Cell> mat;

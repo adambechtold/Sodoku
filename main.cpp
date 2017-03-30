@@ -18,13 +18,40 @@ int main() {
 
     cout << "\n=======BOARD 1========\n\n";
     b1.print();
-    b1.updateAllConflicts();
+    b1.printConflicts();
+
+    int input;
+    string inputStr;
+    cout << "\"s\" for set. \"c\" for clear: ";
+    cin >> inputStr;
+
+    cout << "Row: ";
+    cin >> input;
+    int row = input;
+    cout << "Col: ";
+    cin >> input;
+    int col = input;
+
+    if(inputStr == "s"){
+        cout << "Value: ";
+        cin >> input;
+        int value = input;
+        b1.setCell(row, col,value);
+    }
+
+    else
+        b1.clearCell(row,col);
+
+    b1.print();
+    b1.printConflicts();
+
+    cout << "Press enter to see the rest of the board.";
+    cin >> inputStr;
+
     cout << "\n=======BOARD 2========\n\n";
     b2.print();
     cout << "\n=======BOARD 3========\n\n";
     b3.print();
-
-    b1.printConflicts();
 
     return 0;
 }
