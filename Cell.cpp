@@ -61,17 +61,26 @@ void Cell::setSquareConflict(vector<bool> conflict) {
 
 void Cell::modRowConflict(int index, bool val) {
     this->rowConflicts[index] = val;
-    this->addConflictValue(index+1);
+    if(val)
+        this->addConflictValue(index+1);
+    else
+        this->removeConflictValue(index+1);
 }
 
 void Cell::modColConflict(int index, bool val) {
     this->colConflicts[index] = val;
-    this->addConflictValue(index+1);
+    if(val)
+        this->addConflictValue(index+1);
+    else
+        this->removeConflictValue(index+1);
 }
 
 void Cell::modSquareConflict(int index, bool val) {
     this->sqaureConflicts[index] = val;
-    this->addConflictValue(index+1);
+    if(val)
+        this->addConflictValue(index+1);
+    else
+        this->removeConflictValue(index+1);
 }
 
 
@@ -84,6 +93,14 @@ void Cell::addConflictValue(int val) {
     }
 
     this->conflictValues.push_back(val);
+}
+
+void Cell::removeConflictValue(int val) {
+    for (int i = 0; i < this->conflictValues.size(); i++) {
+        if (this->conflictValues[i] == val) {
+            this->conflictValues.erase(this->conflictValues.begin() + i);
+        }
+    }
 }
 
 void Cell::printCell() {

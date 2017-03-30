@@ -42,6 +42,7 @@ public:
     void modSquareConflict(int index, bool val);
 
     void addConflictValue(int val);
+    void removeConflictValue(int val);
 
     void printCell();
 
