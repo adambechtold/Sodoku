@@ -1,5 +1,5 @@
 //
-// This is the implimentation file for the Cell Class
+// This is the implementation file for the Cell Class
 // This file contains the definitions of the cell class, including:
 //
 // Default and overloaded constructors to initialize the cell
@@ -16,7 +16,7 @@
 
 const int Blank = -1;  // Indicates that a cell is blank
 const int SquareSize = 3;  //  The number of cells in a small square
-const int BoardSize = SquareSize * SquareSize; // Tnitializes the board size
+const int BoardSize = SquareSize * SquareSize; // Initializes the board size
 
 
 using namespace std;
@@ -27,6 +27,7 @@ Cell::Cell(int value)
     this->value = value;
     this->rowConflicts = vector<bool>(BoardSize);
     this->colConflicts = vector<bool>(BoardSize);
+    this->conflictValues = vector<bool>(BoardSize);
     this->squareConflicts = vector<bool>(BoardSize);
 }
 
@@ -52,91 +53,46 @@ void Cell::setValue(int value)
     this->value = value;
 }
 
-void Cell::setRowConflict(vector<bool> conflict)
-{
-    this->rowConflicts = conflict;
-}
-
-void Cell::setColConflict(vector<bool> conflict)
-{
-    this->colConflicts = conflict;
-}
-
-void Cell::setSquareConflict(vector<bool> conflict)
-{
-    this->squareConflicts = conflict;
-}
-
-void Cell::modRowConflict(int index, bool val)
+void Cell::modRowConflict(int index, bool addBool)
 // Modifies rowConflicts vector at specified index with either true or false
 // Also adds or removes the value from the conflictValues vector
 {
-    this->rowConflicts[index] = val;
-    if(val)
-        this->addConflictValue(index+1);
-    else
-        this->removeConflictValue(index+1);
+    this->rowConflicts[index] = addBool;
+    this->conflictValues[index] = addBool;
 }
 
-void Cell::modColConflict(int index, bool val)
+void Cell::modColConflict(int index, bool addBool)
 // Modifies colConflicts vector at specified index with either true or false
 // Also adds or removes the value from the conflictValues vector
-
 {
-    this->colConflicts[index] = val;
-    if(val)
-        this->addConflictValue(index+1);
-    else
-        this->removeConflictValue(index+1);
+    this->colConflicts[index] = addBool;
+    this->conflictValues[index] = addBool;
 }
 
-void Cell::modSquareConflict(int index, bool val)
+void Cell::modSquareConflict(int index, bool addBool)
 // Modifies squareConflicts vector at specified index with either true or false
 // Also adds or removes the value from the conflictValues vector
-
 {
-    this->squareConflicts[index] = val;
-    if(val)
-        this->addConflictValue(index+1);
-    else
-        this->removeConflictValue(index+1);
+    this->squareConflicts[index] = addBool;
+    this->conflictValues[index] = addBool;
 }
 
-void Cell::addConflictValue(int val)
-// Takes in a value to be added to the conflictValues vector, and inserts it
-{
-
-    for (int i = 0; i < this->conflictValues.size(); i++)
-    {
-        if (this->conflictValues[i] == val)
-            return;
-    }
-
-    this->conflictValues.push_back(val);
-}
-
-void Cell::removeConflictValue(int val)
-// Takes in a value to be added to the conflictValues vector, and removes it
-{
-    for (int i = 0; i < this->conflictValues.size(); i++)
-    {
-        if (this->conflictValues[i] == val)
-            this->conflictValues.erase(this->conflictValues.begin() + i);
-    }
-}
 
 void Cell::printCell()
 // Prints out the cell's value and conflict vector
 {
-    if(this->value == Blank) {
+    if (this->value == Blank)
         cout << "|       |";
-    }
-    else {
+
+    else
         cout << "|   " << this->value << "   |";
-    }
+
     cout << "  ";
-    for(int i = 0; i < this->conflictValues.size(); i++) {
-        cout << this->conflictValues[i] << ", ";
+
+    for (int i = 0; i < this->conflictValues.size(); i++)
+    {
+        if (this->conflictValues[i])
+            cout << i + 1 << "  ";
     }
 }
 

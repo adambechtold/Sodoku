@@ -28,8 +28,6 @@ const int BoardSize = SquareSize * SquareSize;
 const int MinValue = 0;
 const int MaxValue = 8;
 
-//int numSolutions = 0;
-
 using namespace std;
 
 #ifndef SODOKU_BOARD_H
@@ -49,8 +47,7 @@ public:
     void updateAllConflicts();
 
     //set and clear functions
-    void setCell(int i, int j, int value);
-    void clearCell(int i, int j);
+    void modCell(int i, int j, int value);
 
     //printing functions
     friend ostream& operator<< (ostream& ostr, const Board& b);
@@ -60,6 +57,7 @@ public:
     bool isSolved();
     bool isBlank(int i, int j);
     int squareNumber(int i, int j);
+
 private:
     matrix<Cell> mat;
 };

@@ -25,8 +25,7 @@ private:
     vector<bool> rowConflicts;
     vector<bool> colConflicts;
     vector<bool> squareConflicts;
-
-    vector<int> conflictValues;
+    vector<bool> conflictValues;
 
 public:
     Cell();
@@ -36,16 +35,9 @@ public:
 
     void setValue(int value);
 
-    void setRowConflict(vector<bool> conflict);
-    void setColConflict(vector<bool> conflict);
-    void setSquareConflict(vector<bool> conflict);
-
     void modRowConflict(int index, bool val);
-    void modColConflict(int index, bool val);
-    void modSquareConflict(int index, bool val);
-
-    void addConflictValue(int val);
-    void removeConflictValue(int val);
+    void modColConflict(int index, bool addBool);
+    void modSquareConflict(int index, bool addBool);
 
     void printCell();
 

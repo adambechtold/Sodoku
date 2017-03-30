@@ -1,5 +1,5 @@
 //
-// This is the implimentation file for the Board Class
+// This is the implementation file for the Board Class
 // This file contains the definitions of the board class, including:
 //
 // Functions to view the contents of each matrix index
@@ -12,7 +12,6 @@
 #include <fstream>
 #include <vector>
 #include "Board.h"
-#include "Cell.h"
 #include <iomanip>
 
 using namespace std;
@@ -30,23 +29,28 @@ Board::Board(string fileName)
 
     this->mat = matrix<Cell>(9,9);
 
+    // read characters from the file and input them into the board's matrix
     char input;
     int number;
-    for(int i = 0; i < 9; i++) {
-        for(int j = 0; j < 9; j++) {
+
+    for (int i = 0; i < BoardSize; i++)
+    {
+        for (int j = 0; j < BoardSize; j++)
+        {
             fin >> noskipws >> input;
-            if (input == '.') {
+            if (input == '.')
                 number = Blank;
-            }
-            else {
+
+            else
                 number = input - '0';
-            }
+
             this->mat[i][j] = Cell(number);
         }
     }
 
     fin.close();
 
+    // initialize conflicts for the entire board
     updateAllConflicts();
 }
 
@@ -76,6 +80,7 @@ int Board::seeCellValue(int i, int j) const
 
 
 void Board::updateConflict(int i, int j)
+// updates the conflicts at a given index in all directions and the same square
 {
     int startRow = (i/SquareSize) * SquareSize;
     int startCol = (j/SquareSize) * SquareSize;
@@ -104,6 +109,7 @@ void Board::updateConflict(int i, int j)
 }
 
 void Board::updateAllConflicts()
+// updates conflicts for the entire board
 {
     for (int i = 0; i < BoardSize; i++) {
         for (int j = 0; j < BoardSize; j++) {
@@ -112,85 +118,46 @@ void Board::updateAllConflicts()
     }
 }
 
-
-/* //Attempt at merging setCell and clearCell
- *TODO: discuss this
- * void Board::setCell(int i, int j, int value)
+ //Attempt at merging setCell and clearCell
+ void Board::modCell(int i, int j, int value)
 {
     bool add;
+    int modIndex;
     int startRow = (i/SquareSize) * SquareSize;
     int startCol = (j/SquareSize) * SquareSize;
 
-    if(value == 0)
+    // if the cell is to be set to blank, use it's current value to find the
+    //   indices to be modified and set it's value to blank
+    if(value == Blank)
     {
        add = false;
-       int value = this->mat[i][j].getValue();
+       modIndex = this->mat[i][j].getValue() - 1;
        this->mat[i][j].setValue(Blank);
     }
 
-    if(value > 0 || value < 10)
+    // if the cells is to be set to a legal value, set it's value to the given
+    //   value parameter and use that parameter to find the indices to be
+    //   modified
+    else if(value > 0 && value < 10)
     {
         add = true;
         this->mat[i][j].setValue(value);
+        modIndex = value - 1;
     }
 
-    this->mat[i][j].modRowConflict(value, add);
-    this->mat[i][j].modColConflict(value, add);
-    this->mat[i][j].modSquareConflict(value, add);
+    //update the conflict vectors for the cell at index i, j
+    this->mat[i][j].modRowConflict(modIndex, add);
+    this->mat[i][j].modColConflict(modIndex, add);
+    this->mat[i][j].modSquareConflict(modIndex, add);
 
-    //update conflicts in the row, column, and square
+    //update conflicts in the same row, columns, and square as cell i,j
     for(int a = 0; a < BoardSize; a++)
     {
-        this->mat[i][a].modRowConflict(value - 1, add);
-        this->mat[a][j].modRowConflict(value - 1, add);
+        this->mat[i][a].modRowConflict(modIndex, add);
+        this->mat[a][j].modRowConflict(modIndex, add);
         int row = a / SquareSize + startRow;
         int col = a % SquareSize + startCol;
-        this->mat[row][col].modSquareConflict(value - 1, add);
-    }
-}
-
- */
-// sets the value of a cell at the given coordinates and updates all affected conflict lists
-// TODO: clearly, there is tons of overlap with the clearCell function
-void Board::setCell(int i, int j, int value)
-{
-    this->mat[i][j].setValue(value);
-
-    this->mat[i][j].modRowConflict(value, true);
-    this->mat[i][j].modColConflict(value, true);
-    this->mat[i][j].modSquareConflict(value, true);
-
-
-    //update conflicts in the row, column, and sqaure
-    int startRow = (i/SquareSize) * SquareSize;
-    int startCol = (j/SquareSize) * SquareSize;
-    for(int a = 0; a < BoardSize; a++) {
-        this->mat[i][a].modRowConflict(value - 1, true);
-        this->mat[a][j].modRowConflict(value - 1, true);
-        int row = a / SquareSize + startRow;
-        int col = a % SquareSize + startCol;
-        this->mat[row][col].modSquareConflict(value - 1, true);
-    }
-}
-
-void Board::clearCell(int i, int j)
-{
-    int value = this->mat[i][j].getValue();
-    this->mat[i][j].setValue(Blank);
-
-    this->mat[i][j].modRowConflict(value, false);
-    this->mat[i][j].modColConflict(value, false);
-    this->mat[i][j].modSquareConflict(value, false);
-
-    //update conflicts in the row, column, and square
-    int startRow = (i/SquareSize) * SquareSize;
-    int startCol = (j/SquareSize) * SquareSize;
-    for(int a = 0; a < BoardSize; a++) {
-        this->mat[i][a].modRowConflict(value - 1, false);
-        this->mat[a][j].modRowConflict(value - 1, false);
-        int row = a / SquareSize + startRow;
-        int col = a % SquareSize + startCol;
-        this->mat[row][col].modSquareConflict(value - 1, false);
+        this->mat[row][col].modSquareConflict(modIndex, add);
     }
 }
 
@@ -228,6 +195,8 @@ void Board::print()
 }
 
 void Board::printConflicts()
+// Prints out a formatted table of each cell's location, value, and conflict
+//   values
 {
     cout << setw(7) << "Cell";
     cout << setw(11) << "Value";
@@ -276,5 +245,3 @@ bool Board::isSolved()
     }
     return true;
 }
-
-
