@@ -37,6 +37,7 @@ using namespace std;
 class Board {
 public:
     Board(string fileName);
+    Board(char *buffer);
 
     //constant functions to look into the values of cells
     Cell seeCell(int i, int j) const;
@@ -61,8 +62,12 @@ public:
 
     void mostConstrained(int& row, int& column);
 
+    void solve();
+
 private:
     matrix<Cell> mat;
+    bool solved;
+    int countRecursions;
 };
 
 

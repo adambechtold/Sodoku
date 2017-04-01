@@ -52,7 +52,35 @@ Board::Board(string fileName)
 
     // initialize conflicts for the entire board
     updateAllConflicts();
+
+    //set the solved field
+    this->solved = isSolved();
+    this->countRecursions = 0;
 }
+
+Board::Board(char* buffer)
+// create a board from a vector of characters
+{
+    char input;
+    int number;
+//    int k = 0;
+    for (int i = 0; i < BoardSize; i++)
+    {
+        for (int j = 0; j < BoardSize; j++)
+        {
+            input = buffer[i*BoardSize + j];
+
+            if (input == '.')
+                number = Blank;
+
+            else
+                number = input - '0';
+
+            this->mat[i][j] = Cell(number);
+        }
+    }
+}
+
 
 ostream &operator<<(ostream &ostr, const Board &b)
 // overloads the << operator to print the contents of the board
@@ -271,7 +299,8 @@ void Board::mostConstrained(int &row, int &column)
     {
         for (int j = 0; j < BoardSize; j++)
         {
-            if (this->mat[i][j].numConstraints() > numconflicts)
+            if (this->mat[i][j].numConstraints() >= numconflicts
+                && this->mat[i][j].getValue() == Blank)
             {
                 numconflicts = this->mat[i][j].numConstraints();
                 row = i;
@@ -280,4 +309,31 @@ void Board::mostConstrained(int &row, int &column)
         }
     }
     return;
+}
+
+void Board::solve()
+// solve the board using a recursive backtracking algorithm
+{
+    if (isSolved()) {
+        this->solved = true;
+        cout << "Congratulations!!!" << endl;
+        cout << "It used " << this->countRecursions << " recursive calls.\n";
+        cout << "You pressed 1 button....\n";
+        print();
+    }
+
+    else {
+        int row, col;
+        mostConstrained(row, col);
+        for (int i = 1; i <= BoardSize; i++) {
+            if (isLegal(row, col, i)) {
+                modCell(row, col, i);
+                this->countRecursions++;
+                solve();
+                if(!this->solved)
+                    modCell(row,col,Blank);
+            }
+        }
+
+    }
 }

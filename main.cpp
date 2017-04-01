@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Board.h"
+#include <fstream>
 
 using namespace std;
 
@@ -12,10 +13,24 @@ int main()
     // check to see if the board has been solved
 
     Board b1 = Board("Sudoku1.txt");
-    b1.print();
-    int row, column;
-    b1.mostConstrained(row, column);
-    cout << "(" << row << ", " << column << ")";
+
+    ifstream fin;
+    fin.open("Sudoku1-3.txt");
+
+    if (!fin)
+        cout << "File access failure.\n";
+
+
+    char buffer[BoardSize * BoardSize];
+
+    while(!fin.eof()) {
+        fin.read(buffer, sizeof(buffer));
+        Board b = Board(buffer);
+        b.print();
+        cin.ignore();
+    }
+
+
     //===========TEST ZONE==========
     /*
      * Board b1 = Board("Sudoku1.txt");
