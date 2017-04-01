@@ -240,6 +240,13 @@ int Board::squareNumber(int i, int j)
     return SquareSize * ((i/SquareSize) + (j/SquareSize + 1));
 }
 
+
+bool Board::isLegal(int i, int j, int s)
+// can the given digit, s, be assigned to the cell at row, i, and col, j
+{
+    return this->seeCell(i, j).checkValue(s) && (s > 0) && (s <= BoardSize);
+}
+
 bool Board::isSolved()
 // Returns true if entire board has values, and false otherwise
 {
@@ -253,3 +260,5 @@ bool Board::isSolved()
     }
     return true;
 }
+
+

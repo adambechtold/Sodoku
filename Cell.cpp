@@ -53,6 +53,12 @@ void Cell::setValue(int value)
     this->value = value;
 }
 
+bool Cell::checkValue(int value)
+// can this value be assigned to this cell?
+{
+    return (!this->conflictValues[value - 1] && this->value == Blank);
+}
+
 void Cell::modRowConflict(int index, bool addBool)
 // Modifies rowConflicts vector at specified index with either true or false
 // Also adds or removes the value from the conflictValues vector

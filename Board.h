@@ -56,6 +56,7 @@ public:
 
     bool isSolved();
     bool isBlank(int i, int j);
+    bool isLegal(int i, int j, int s);
     int squareNumber(int i, int j);
 
 private:

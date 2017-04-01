@@ -34,6 +34,7 @@ public:
     int getValue() const;
 
     void setValue(int value);
+    bool checkValue(int value);
 
     void modRowConflict(int index, bool val);
     void modColConflict(int index, bool addBool);
