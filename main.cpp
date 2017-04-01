@@ -11,9 +11,14 @@ int main()
     // print the board and conflicts to the screen
     // check to see if the board has been solved
 
-
-    //===========TEST ZONE==========
     Board b1 = Board("Sudoku1.txt");
+    b1.print();
+    int row, column;
+    b1.mostConstrained(row, column);
+    cout << "(" << row << ", " << column << ")";
+    //===========TEST ZONE==========
+    /*
+     * Board b1 = Board("Sudoku1.txt");
     Board b2 = Board("Sudoku2.txt");
     Board b3 = Board("Sudoku3.txt");
 
@@ -65,6 +70,6 @@ int main()
     cout << "\n ===========BOARD 3============\n\n";
     b3.print();
     b3.printConflicts();
-
+*/
     return 0;
 }

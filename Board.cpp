@@ -261,4 +261,23 @@ bool Board::isSolved()
     return true;
 }
 
+void Board::mostConstrained(int &row, int &column)
+// Finds the cell in the board with the fewest possible value
+// modifies passed row and column values
+{
+    int numconflicts = 0;
 
+    for (int i = 0; i < BoardSize; i++)
+    {
+        for (int j = 0; j < BoardSize; j++)
+        {
+            if (this->mat[i][j].numConstraints() > numconflicts)
+            {
+                numconflicts = this->mat[i][j].numConstraints();
+                row = i;
+                column = j;
+            }
+        }
+    }
+    return;
+}

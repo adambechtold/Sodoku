@@ -102,6 +102,19 @@ void Cell::printCell()
     }
 }
 
+int Cell::numConstraints()
+{
+    int numconstraints = 0;
+    for (int i = 0; i < rowConflicts.size(); i++)
+    {
+        if (this->rowConflicts.at(i) == true
+            || this->colConflicts.at(i) == true
+            || this->squareConflicts.at(i) == true)
+            numconstraints++;
+    }
+    return numconstraints;
+}
+
 
 
 

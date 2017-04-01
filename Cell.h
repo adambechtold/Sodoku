@@ -39,7 +39,7 @@ public:
     void modRowConflict(int index, bool val);
     void modColConflict(int index, bool addBool);
     void modSquareConflict(int index, bool addBool);
-
+    int numConstraints();
     void printCell();
 
     friend ostream& operator<< (ostream& ostr, const Cell& c);

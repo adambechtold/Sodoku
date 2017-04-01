@@ -59,6 +59,8 @@ public:
     bool isLegal(int i, int j, int s);
     int squareNumber(int i, int j);
 
+    void mostConstrained(int& row, int& column);
+
 private:
     matrix<Cell> mat;
 };
