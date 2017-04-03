@@ -14,21 +14,10 @@ int main()
 
     Board b1 = Board("Sudoku1.txt");
 
-    ifstream fin;
-    fin.open("Sudoku1-3.txt");
-
-    if (!fin)
-        cout << "File access failure.\n";
+    b1.print();
+    b1.solve();
 
 
-    char buffer[BoardSize * BoardSize];
-
-    while(!fin.eof()) {
-        fin.read(buffer, sizeof(buffer));
-        Board b = Board(buffer);
-        b.print();
-        cin.ignore();
-    }
 
 
     //===========TEST ZONE==========

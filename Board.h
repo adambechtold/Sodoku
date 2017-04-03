@@ -61,13 +61,15 @@ public:
     int squareNumber(int i, int j);
 
     void mostConstrained(int& row, int& column);
-
     void solve();
 
+    //TODO remove this
+    void printSolutions();
 private:
     matrix<Cell> mat;
     bool solved;
     int countRecursions;
+    int countSolutions;
 };
 
 

@@ -56,6 +56,7 @@ Board::Board(string fileName)
     //set the solved field
     this->solved = isSolved();
     this->countRecursions = 0;
+    this->countSolutions = 0;
 }
 
 Board::Board(char* buffer)
@@ -315,11 +316,15 @@ void Board::solve()
 // solve the board using a recursive backtracking algorithm
 {
     if (isSolved()) {
+
         this->solved = true;
+        this->countSolutions++;
+        cout << countSolutions << endl;
         cout << "Congratulations!!!" << endl;
         cout << "It used " << this->countRecursions << " recursive calls.\n";
         cout << "You pressed 1 button....\n";
         print();
+        //cin.ignore();
     }
 
     else {
@@ -336,4 +341,8 @@ void Board::solve()
         }
 
     }
+}
+
+void Board::printSolutions() {
+    cout << this->countRecursions;
 }
