@@ -40,8 +40,9 @@ public:
     Board(char *buffer);
 
     //constant functions to look into the values of cells
-    Cell seeCell(int i, int j) const;
-    int seeCellValue(int i, int j) const;
+    Cell getCell(int i, int j) const;
+    int getCellValue(int i, int j) const;
+    int getRecursiveCalls() const;
 
     //conflict update functions
     void updateConflict(int i, int j);

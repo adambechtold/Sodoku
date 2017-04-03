@@ -64,6 +64,8 @@ Board::Board(char* buffer)
 {
     char input;
     int number;
+    this->mat = matrix<Cell>(9,9);
+
 //    int k = 0;
     for (int i = 0; i < BoardSize; i++)
     {
@@ -80,6 +82,14 @@ Board::Board(char* buffer)
             this->mat[i][j] = Cell(number);
         }
     }
+
+    // initialize conflicts for the entire board
+    updateAllConflicts();
+
+    //set the solved field
+    this->solved = isSolved();
+    this->countRecursions = 0;
+    this->countSolutions = 0;
 }
 
 
@@ -89,23 +99,29 @@ ostream &operator<<(ostream &ostr, const Board &b)
     for (int i = 0; i < BoardSize; i++)
     {
         for (int j = 0; j < BoardSize; j++)
-            ostr << b.seeCellValue(i, j) << " ";
+            ostr << b.getCellValue(i, j) << " ";
 
         ostr << endl;
     }
     return ostr;
 }
 
-Cell Board::seeCell(int i, int j) const
+Cell Board::getCell(int i, int j) const
 // return the cell object at the given coordinates
 {
     return this->mat[i][j];
 }
 
-int Board::seeCellValue(int i, int j) const
+int Board::getCellValue(int i, int j) const
 // return the value of the cell at the given coordinates
 {
-    return this->seeCell(i, j).getValue();
+    return this->getCell(i, j).getValue();
+}
+
+int Board::getRecursiveCalls() const
+// return the number of recursive calls used to solve this board
+{
+    return this->countRecursions;
 }
 
 
@@ -120,14 +136,14 @@ void Board::updateConflict(int i, int j)
     for (int a = 0; a < BoardSize; a++)
     {
         //Moving through the row
-        spotVal = this->seeCellValue(i,a);
+        spotVal = this->getCellValue(i, a);
 
         if (spotVal != Blank)
             this->mat[i][j].modRowConflict(spotVal - 1, true);
 
 
         //moving through the column
-        spotVal = this->seeCellValue(a,j);
+        spotVal = this->getCellValue(a, j);
 
         if (spotVal != Blank)
             this->mat[i][j].modColConflict(spotVal - 1, true);
@@ -135,7 +151,7 @@ void Board::updateConflict(int i, int j)
         //move through the given square
         int row = a / SquareSize + startRow;
         int col = a % SquareSize + startCol;
-        spotVal = this->seeCellValue(row,col);
+        spotVal = this->getCellValue(row, col);
 
         if (spotVal != Blank)
             this->mat[i][j].modSquareConflict(spotVal - 1, true);
@@ -214,7 +230,7 @@ void Board::print()
                 cout << "|";
 
             if (!isBlank(i,j))
-                cout << " " << seeCellValue(i, j) << " ";
+                cout << " " << getCellValue(i, j) << " ";
 
             else
                 cout << "   ";
@@ -256,7 +272,7 @@ bool Board::isBlank(int i, int j)
     if (i < 0 || i >= BoardSize || j < 0 || j >= BoardSize)
         throw rangeError("bad value in setCell");
 
-    return (seeCellValue(i, j) == Blank);
+    return (getCellValue(i, j) == Blank);
 }
 
 int Board::squareNumber(int i, int j)
@@ -273,7 +289,7 @@ int Board::squareNumber(int i, int j)
 bool Board::isLegal(int i, int j, int s)
 // can the given digit, s, be assigned to the cell at row, i, and col, j
 {
-    return this->seeCell(i, j).checkValue(s) && (s > 0) && (s <= BoardSize);
+    return this->getCell(i, j).checkValue(s) && (s > 0) && (s <= BoardSize);
 }
 
 bool Board::isSolved()
@@ -315,16 +331,11 @@ void Board::mostConstrained(int &row, int &column)
 void Board::solve()
 // solve the board using a recursive backtracking algorithm
 {
+
     if (isSolved()) {
 
         this->solved = true;
         this->countSolutions++;
-        cout << countSolutions << endl;
-        cout << "Congratulations!!!" << endl;
-        cout << "It used " << this->countRecursions << " recursive calls.\n";
-        cout << "You pressed 1 button....\n";
-        print();
-        //cin.ignore();
     }
 
     else {
