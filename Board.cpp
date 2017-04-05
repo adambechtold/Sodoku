@@ -354,6 +354,7 @@ void Board::solve()
     }
 }
 
+// TODO comments
 void Board::printSolutions() {
     cout << this->countRecursions;
 }

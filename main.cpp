@@ -46,7 +46,7 @@ void solveBoard(string fileName)
 
     int averageCalls = recursiveCalls / numBoards;
 
-    cout << "Solving " << numBoards << " boards required  an average of ";
+    cout << "Solving " << numBoards << " boards required an average of ";
     cout << averageCalls;
     cout << " recursive calls.\n\n";
 
