@@ -204,7 +204,7 @@ void Board::updateAllConflicts()
     for(int a = 0; a < BoardSize; a++)
     {
         this->mat[i][a].modRowConflict(modIndex, add);
-        this->mat[a][j].modRowConflict(modIndex, add);
+        this->mat[a][j].modColConflict(modIndex, add);
         int row = a / SquareSize + startRow;
         int col = a % SquareSize + startCol;
         this->mat[row][col].modSquareConflict(modIndex, add);
@@ -331,11 +331,10 @@ void Board::mostConstrained(int &row, int &column)
 void Board::solve()
 // solve the board using a recursive backtracking algorithm
 {
-
     if (isSolved()) {
-
         this->solved = true;
         this->countSolutions++;
+        print();
     }
 
     else {
@@ -347,7 +346,7 @@ void Board::solve()
                 this->countRecursions++;
                 solve();
                 if(!this->solved)
-                    modCell(row,col,Blank);
+                    modCell(row, col, Blank);
             }
         }
 

@@ -64,7 +64,7 @@ void Cell::modRowConflict(int index, bool addBool)
 // Also adds or removes the value from the conflictValues vector
 {
     this->rowConflicts[index] = addBool;
-    this->conflictValues[index] = addBool;
+    updateConflicts();
 }
 
 void Cell::modColConflict(int index, bool addBool)
@@ -72,7 +72,7 @@ void Cell::modColConflict(int index, bool addBool)
 // Also adds or removes the value from the conflictValues vector
 {
     this->colConflicts[index] = addBool;
-    this->conflictValues[index] = addBool;
+    updateConflicts();
 }
 
 void Cell::modSquareConflict(int index, bool addBool)
@@ -80,7 +80,18 @@ void Cell::modSquareConflict(int index, bool addBool)
 // Also adds or removes the value from the conflictValues vector
 {
     this->squareConflicts[index] = addBool;
-    this->conflictValues[index] = addBool;
+    updateConflicts();
+}
+
+void Cell::updateConflicts()
+// declare a conflict value if any there is a conflict in the same row, col,
+//   or sqaure
+{
+    for(int i = 0; i < BoardSize; i++) {
+        bool isConflict = this->rowConflicts[i] || this->colConflicts[i]
+                          || this->squareConflicts[i];
+        this->conflictValues[i] = isConflict;
+    }
 }
 
 

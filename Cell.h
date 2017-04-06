@@ -39,6 +39,8 @@ public:
     void modRowConflict(int index, bool val);
     void modColConflict(int index, bool addBool);
     void modSquareConflict(int index, bool addBool);
+    void updateConflicts();
+
     int numConstraints();
     void printCell();
 
