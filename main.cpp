@@ -10,6 +10,10 @@ void solveBoard(string fileName);
 int main()
 {
     solveBoard("Sudoku1-3.txt");
+
+    cout << "\nPress ENTER to continue to solve the next set of boards.\n\n";
+    cin.ignore();
+
     solveBoard("Sudoku.txt");
 
     return 0;
@@ -41,7 +45,7 @@ void solveBoard(string fileName)
         b.solve();
         b.print();
         cout << "Solving this board took " << b.getRecursiveCalls();
-        cout <<" recursive calls. \n";
+        cout <<" recursive calls. \n\n";
         recursiveCalls += b.getRecursiveCalls();
         numBoards++;
         fin >> noskipws >> nextCheck;
@@ -51,9 +55,10 @@ void solveBoard(string fileName)
     int averageCalls = recursiveCalls / numBoards;
 
     //prints out some interesting info...
-    cout << "Solving " << numBoards << " boards required an average of ";
-    cout << averageCalls;
-    cout << " recursive calls.\n";
-    cout << "Total Recursive Calls:" << recursiveCalls << ". \n\n";
-
+    cout << "===============================================================";
+    cout << endl << endl;
+    cout << "Solving " << numBoards << " boards required ";
+    cout << recursiveCalls;
+    cout << " recursive calls, an average of ";
+    cout << averageCalls << ".\n\n";
 }
