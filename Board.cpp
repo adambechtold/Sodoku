@@ -66,7 +66,6 @@ Board::Board(char* buffer)
     int number;
     this->mat = matrix<Cell>(9,9);
 
-//    int k = 0;
     for (int i = 0; i < BoardSize; i++)
     {
         for (int j = 0; j < BoardSize; j++)
@@ -92,20 +91,6 @@ Board::Board(char* buffer)
     this->countSolutions = 0;
 }
 
-
-ostream &operator<<(ostream &ostr, const Board &b)
-// overloads the << operator to print the contents of the board
-{
-    for (int i = 0; i < BoardSize; i++)
-    {
-        for (int j = 0; j < BoardSize; j++)
-            ostr << b.getCellValue(i, j) << " ";
-
-        ostr << endl;
-    }
-    return ostr;
-}
-
 Cell Board::getCell(int i, int j) const
 // return the cell object at the given coordinates
 {
@@ -123,7 +108,6 @@ int Board::getRecursiveCalls() const
 {
     return this->countRecursions;
 }
-
 
 void Board::updateConflict(int i, int j)
 // updates the conflicts at a given index in all directions and the same square
@@ -168,8 +152,9 @@ void Board::updateAllConflicts()
     }
 }
 
- //Attempt at merging setCell and clearCell
- void Board::modCell(int i, int j, int value)
+void Board::modCell(int i, int j, int value)
+// Modifies a cell with either a new value or blank, and updates all the
+// relevant conflicts
 {
     bool add;
     int modIndex;
@@ -211,61 +196,6 @@ void Board::updateAllConflicts()
     }
 }
 
-void Board::print()
-// Prints the current board.
-{
-    for (int i = 0; i < BoardSize; i++)
-    {
-        if (i % SquareSize == 0)
-        {
-            cout << " -";
-            for (int j = 0; j < BoardSize; j++)
-                cout << "---";
-            cout << "-";
-            cout << endl;
-        }
-        for (int j = 0; j < BoardSize; j++)
-        {
-            if ((j) % SquareSize == 0)
-                cout << "|";
-
-            if (!isBlank(i,j))
-                cout << " " << getCellValue(i, j) << " ";
-
-            else
-                cout << "   ";
-        }
-        cout << "|";
-        cout << endl;
-    }
-
-    cout << " -";
-
-    for (int j = 1; j <= BoardSize; j++)
-        cout << "---";
-    cout << "-";
-    cout << endl;
-}
-
-void Board::printConflicts()
-// Prints out a formatted table of each cell's location, value, and conflict
-//   values
-{
-    cout << setw(7) << "Cell";
-    cout << setw(11) << "Value";
-    cout << setw(20) << "Conflict Values\n";
-
-    for (int i = 0; i < BoardSize; i++)
-    {
-        for (int j = 0; j < BoardSize; j++)
-        {
-            cout << "   " << "(" << i << "," << j << ")   ";
-            this->mat[i][j].printCell();
-            cout << endl;
-        }
-    }
-}
-
 bool Board::isBlank(int i, int j)
 // Returns true if cell i,j is blank, and false otherwise.
 {
@@ -275,21 +205,10 @@ bool Board::isBlank(int i, int j)
     return (getCellValue(i, j) == Blank);
 }
 
-int Board::squareNumber(int i, int j)
-// Return the square number of cell i,j (counting from left to right,
-// top to bottom.  Note that i and j each go from 1 to BoardSize
-{
-    // Note that (int) i/SquareSize and (int) j/SquareSize are the x-y
-    // coordinates of the square that i,j is in.
-
-    return SquareSize * ((i/SquareSize) + (j/SquareSize + 1));
-}
-
-
 bool Board::isLegal(int i, int j, int s)
 // can the given digit, s, be assigned to the cell at row, i, and col, j
 {
-    return this->getCell(i, j).checkValue(s) && (s > 0) && (s <= BoardSize);
+    return this->mat[i][j].checkValue(s) && (s > 0) && (s <= BoardSize);
 }
 
 bool Board::isSolved()
@@ -331,17 +250,21 @@ void Board::mostConstrained(int &row, int &column)
 void Board::solve()
 // solve the board using a recursive backtracking algorithm
 {
-    if (isSolved()) {
+    if (isSolved())
+    {
         this->solved = true;
         this->countSolutions++;
-        print();
     }
 
-    else {
+    else
+    {
         int row, col;
         mostConstrained(row, col);
-        for (int i = 1; i <= BoardSize; i++) {
-            if (isLegal(row, col, i)) {
+
+        for (int i = 1; i <= BoardSize; i++)
+        {
+            if (isLegal(row, col, i))
+            {
                 modCell(row, col, i);
                 this->countRecursions++;
                 solve();
@@ -349,11 +272,74 @@ void Board::solve()
                     modCell(row, col, Blank);
             }
         }
-
     }
 }
 
-// TODO comments
-void Board::printSolutions() {
-    cout << this->countRecursions;
+void Board::print()
+// Prints the current board.
+{
+    for (int i = 0; i < BoardSize; i++)
+    {
+        if (i % SquareSize == 0)
+        {
+            cout << " -";
+            for (int j = 0; j < BoardSize; j++)
+                cout << "---";
+            cout << "-";
+            cout << endl;
+        }
+        for (int j = 0; j < BoardSize; j++)
+        {
+            if ((j) % SquareSize == 0)
+                cout << "|";
+
+            if (!isBlank(i,j))
+                cout << " " << getCellValue(i, j) << " ";
+
+            else
+                cout << "   ";
+        }
+        cout << "|";
+        cout << endl;
+    }
+
+    cout << " -";
+
+    for (int j = 1; j <= BoardSize; j++)
+        cout << "---";
+    cout << "-";
+    cout << endl;
 }
+
+void Board::printConflicts()
+// Prints out a formatted table of each cell's location, value, and conflict
+//  values
+{
+    cout << setw(7) << "Cell";
+    cout << setw(11) << "Value";
+    cout << setw(20) << "Conflict Values\n";
+
+    for (int i = 0; i < BoardSize; i++)
+    {
+        for (int j = 0; j < BoardSize; j++)
+        {
+            cout << "   " << "(" << i << "," << j << ")   ";
+            this->mat[i][j].printCell();
+            cout << endl;
+        }
+    }
+}
+
+ostream &operator<<(ostream &ostr, const Board &b)
+// overloads the << operator to print the contents of the board
+{
+    for (int i = 0; i < BoardSize; i++)
+    {
+        for (int j = 0; j < BoardSize; j++)
+            ostr << b.getCellValue(i, j) << " ";
+
+        ostr << endl;
+    }
+    return ostr;
+}
+

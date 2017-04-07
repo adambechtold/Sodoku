@@ -2,13 +2,14 @@
 // This is the header file for the Board Class
 // This file contains the declarations of the board class, including:
 //
+// Constructors to handle opening both lists of characters and text files
 // Functions to view the contents of each matrix index
 // A function which update the conflicts of the entire board
 // A function to update conflicts related to a specific index
 // Functions to set and clear specific index values
 // Functions to support printing the matrix as well as all cell conflicts
 // Functions to determine if the board is solved
-
+//
 
 #include "d_matrix.h"
 #include <cstdlib>
@@ -34,7 +35,15 @@ using namespace std;
 #define SODOKU_BOARD_H
 
 
-class Board {
+class Board
+{
+
+private:
+    matrix<Cell> mat;
+    bool solved;
+    int countRecursions;
+    int countSolutions;
+
 public:
     Board(string fileName);
     Board(char *buffer);
@@ -56,21 +65,13 @@ public:
     void print();
     void printConflicts();
 
+
     bool isSolved();
     bool isBlank(int i, int j);
     bool isLegal(int i, int j, int s);
-    int squareNumber(int i, int j);
 
     void mostConstrained(int& row, int& column);
     void solve();
-
-    //TODO remove this
-    void printSolutions();
-private:
-    matrix<Cell> mat;
-    bool solved;
-    int countRecursions;
-    int countSolutions;
 };
 
 

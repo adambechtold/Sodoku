@@ -11,7 +11,6 @@
 //
 
 #include <iostream>
-#include <iomanip>
 #include "Cell.h"
 
 const int Blank = -1;  // Indicates that a cell is blank
@@ -54,7 +53,7 @@ void Cell::setValue(int value)
 }
 
 bool Cell::checkValue(int value)
-// can this value be assigned to this cell?
+// Checks to see if value be assigned to this cell
 {
     return (!this->conflictValues[value - 1] && this->value == Blank);
 }
@@ -84,16 +83,16 @@ void Cell::modSquareConflict(int index, bool addBool)
 }
 
 void Cell::updateConflicts()
-// declare a conflict value if any there is a conflict in the same row, col,
-//   or sqaure
+// Declares a conflict value if any there is a conflict in the same row, col,
+// or square
 {
-    for(int i = 0; i < BoardSize; i++) {
+    for(int i = 0; i < BoardSize; i++)
+    {
         bool isConflict = this->rowConflicts[i] || this->colConflicts[i]
                           || this->squareConflicts[i];
         this->conflictValues[i] = isConflict;
     }
 }
-
 
 void Cell::printCell()
 // Prints out the cell's value and conflict vector
@@ -114,8 +113,10 @@ void Cell::printCell()
 }
 
 int Cell::numConstraints()
+// Determines the number of constraints a cell is under and returns that value
 {
     int numconstraints = 0;
+
     for (int i = 0; i < rowConflicts.size(); i++)
     {
         if (this->rowConflicts.at(i) == true

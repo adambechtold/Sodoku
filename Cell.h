@@ -10,6 +10,7 @@
 // Functions to support printing of the cell's value
 //
 
+
 #include <vector>
 
 using namespace std;
@@ -18,7 +19,8 @@ using namespace std;
 #define SODOKU_CELL_H
 
 
-class Cell {
+class Cell
+{
 private:
     int value;
 
@@ -32,7 +34,6 @@ public:
     Cell(int value);
 
     int getValue() const;
-
     void setValue(int value);
     bool checkValue(int value);
 
@@ -40,10 +41,9 @@ public:
     void modColConflict(int index, bool addBool);
     void modSquareConflict(int index, bool addBool);
     void updateConflicts();
-
     int numConstraints();
-    void printCell();
 
+    void printCell();
     friend ostream& operator<< (ostream& ostr, const Cell& c);
 };
 
